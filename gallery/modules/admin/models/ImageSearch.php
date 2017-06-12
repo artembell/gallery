@@ -18,8 +18,8 @@ class ImageSearch extends Image
     public function rules()
     {
         return [
-            [['id', 'status'], 'integer'],
-            [['author', 'category', 'title', 'date_upload'], 'safe'],
+            [['id', 'category_id', 'status'], 'integer'],
+            [['author', 'title', 'date_upload'], 'safe'],
         ];
     }
 
@@ -60,12 +60,12 @@ class ImageSearch extends Image
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'category_id' => $this->category_id,
             'date_upload' => $this->date_upload,
             'status' => $this->status,
         ]);
 
         $query->andFilterWhere(['like', 'author', $this->author])
-            ->andFilterWhere(['like', 'category', $this->category])
             ->andFilterWhere(['like', 'title', $this->title]);
 
         return $dataProvider;

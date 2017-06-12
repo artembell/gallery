@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'author',
-            'category',
+            'category_id',
             'title',
             'date_upload',
             'status',

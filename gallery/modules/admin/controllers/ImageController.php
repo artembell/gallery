@@ -2,12 +2,14 @@
 
 namespace app\modules\admin\controllers;
 
+use app\modules\admin\models\UploadForm;
 use Yii;
 use app\modules\admin\models\Image;
 use app\modules\admin\models\ImageSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * ImageController implements the CRUD actions for Image model.
@@ -42,6 +44,17 @@ class ImageController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+        //echo phpinfo();
+    }
+
+    public function actionUpload(){
+        $model = new UploadForm();
+        if(Yii::$app->request->isPost){
+            $model->file = UploadedFile::getInstance($model, 'file');
+            $model->upload();
+            return $this->render('upload', ['model' => $model]);
+        }
+        return $this->render('upload', ['model' => $model]);
     }
 
     /**
@@ -82,15 +95,17 @@ class ImageController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = new UploadForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        if (Yii::$app->request->isPost) {
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            if ($model->upload()) {
+                // file is uploaded successfully
+                return;
+            }
         }
+
+        return $this->render('upload', ['model' => $model]);
     }
 
     /**

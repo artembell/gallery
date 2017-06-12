@@ -15,6 +15,9 @@ $config = [
             'class' => 'app\modules\admin\GalleryModule',
         ],
     ],
+    'name' => 'Webpic',
+    'language' => 'en',
+    'defaultRoute' => 'admin/image/index',
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -51,9 +54,16 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                '<module>/<controller>/<action>' => 'admin/default/<action>',
+                //'<module>/<controller>/<action>' => 'admin/default/<action>',
+                //'<controller>/<action>' => 'admin/<controller>/<action>',
+
+                'image/<id:\d+>' => 'admin/image/view',
+                'category/<id:\d+>' => 'admin/category/view',
+
                 '<controller>/<action>' => 'admin/<controller>/<action>',
                 '<controller>' => 'admin/<controller>/index',
+
+
             ],
         ],
     ],
